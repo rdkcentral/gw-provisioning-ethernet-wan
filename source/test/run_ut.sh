@@ -147,7 +147,13 @@ run_all_gtests() {
 
 # Call the generic function to build and run all gtest binaries
 run_all_gtests
-log "INFO" "Completed running all Gtest Binaries"
+
+# Check if coverage.info exists before filtering
+if [ -f coverage.info ] || [ -d out ]; then
+    log "INFO" "Removing existing coverage.info and/or out directory"
+    [ -f coverage.info ] && rm -f coverage.info
+    [ -d out ] && rm -rf out
+fi
 
 log "INFO" "Starting Gcov for code coverage analysis"
 # Capture initial coverage data
