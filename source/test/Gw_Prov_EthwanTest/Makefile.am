@@ -51,7 +51,7 @@ Gw_Prov_Ethwan_gtest_bin_LDADD = $(HOME)/usr/local/lib/libmock_ethsw_hal.la \
                                                                  $(HOME)/usr/local/lib/libmock_util.la \
                                                                  $(HOME)/usr/local/lib/libmock_cm_hal.la \
                                                                  $(HOME)/usr/local/lib/libmock_file_io.la
-Gw_Prov_Ethwan_gtest_bin_LDFLAGS = -lgtest -lgmock -lgcov -lpthread
+Gw_Prov_Ethwan_gtest_bin_LDFLAGS = -lgtest -lgmock -lgcov -lpthread -lrdkloggers
 AM_CFLAGS += -fprofile-arcs -ftest-coverage
 AM_CXXFLAGS += -fprofile-arcs -ftest-coverage
 Gw_Prov_Ethwan_gtest_bin_LDFLAGS += --coverage
