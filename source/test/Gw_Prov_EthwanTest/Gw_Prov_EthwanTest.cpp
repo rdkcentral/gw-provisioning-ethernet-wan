@@ -92,7 +92,6 @@ class Gw_Prov_EthwanTest : public ::testing::Test {
 TEST_F(Gw_Prov_EthwanTest, MainFunction_checkIfAlreadyRunning_false_syscfgset_fails) {
 
     EXPECT_CALL(*g_rdkloggerMock, rdk_logger_init(_)).Times(testing::AtLeast(1));
-    //EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
     EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
 
     EXPECT_CALL(*g_utilMock, system(_)).Times(testing::AtLeast(1)).WillRepeatedly(testing::Return(0));
@@ -398,7 +397,7 @@ TEST_F(Gw_Prov_EthwanTest, MainFunction_checkIfAlreadyRunning_false_syscfgset_fa
 TEST_F(Gw_Prov_EthwanTest, MainFunction_checkIfAlreadyRunning_true) {
 
     EXPECT_CALL(*g_rdkloggerMock, rdk_logger_init(_)).Times(testing::AtLeast(1));
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
 
     EXPECT_CALL(*g_syscfgMock, syscfg_get(_, _, _, _))
         .Times(testing::AtLeast(1))
@@ -463,17 +462,17 @@ TEST_F(Gw_Prov_EthwanTest, GwProvSetLED_platform_hal_setLed_pass) {
 
 TEST_F(Gw_Prov_EthwanTest, validate_mode_bridge_mode_1) {
 
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
     EXPECT_CALL(*g_syscfgMock, syscfg_set_nns_u_commit(_,_)).Times(1).WillOnce(Return(0));
     int bridge_mode = 1;
     validate_mode(&bridge_mode);
 
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
     EXPECT_CALL(*g_syscfgMock, syscfg_set_nns_u_commit(_,_)).Times(1).WillOnce(Return(-1));
     bridge_mode = 1;
     validate_mode(&bridge_mode);
 
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
     bridge_mode = 0;
     validate_mode(&bridge_mode);
 }
@@ -488,13 +487,13 @@ TEST_F(Gw_Prov_EthwanTest, getSyseventBridgeMode) {
 
 TEST_F(Gw_Prov_EthwanTest, GWP_EthWanLinkDown_callback) {
     EXPECT_CALL(*g_utilMock, system(_)).Times(testing::AtLeast(1)).WillRepeatedly(testing::Return(0));
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
     EXPECT_EQ(0, GWP_EthWanLinkDown_callback());
 }
 
 TEST_F(Gw_Prov_EthwanTest, ethGetPHYRate_AllCases) {
 
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
     struct TestCase {
         _CCSP_HAL_ETHSW_LINK_RATE linkRate;
         _CCSP_HAL_ETHSW_DUPLEX_MODE duplexMode;
@@ -553,7 +552,7 @@ TEST_F(Gw_Prov_EthwanTest, GWP_EthWanLinkUp_callback) {
         }));
 
     EXPECT_CALL(*g_utilMock, system(_)).Times(testing::AtLeast(1)).WillRepeatedly(testing::Return(0));
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
     EXPECT_EQ(0, GWP_EthWanLinkUp_callback());
 
     // Test case 2: for CcspHalExtSw_getEthWanPort failure case
@@ -570,7 +569,7 @@ TEST_F(Gw_Prov_EthwanTest, GWP_EthWanLinkUp_callback) {
         }));
     EXPECT_CALL(*g_ethSwHALMock, CcspHalExtSw_getEthWanPort(_)).Times(testing::AtLeast(1)).WillRepeatedly(testing::Return(-1));
     EXPECT_CALL(*g_utilMock, system(_)).Times(testing::AtLeast(1)).WillRepeatedly(testing::Return(0));
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
     EXPECT_EQ(0, GWP_EthWanLinkUp_callback());
 
     // Test case 3: for syscfg_get failure case
@@ -578,7 +577,7 @@ TEST_F(Gw_Prov_EthwanTest, GWP_EthWanLinkUp_callback) {
         .Times(testing::AtLeast(1))
         .WillOnce(testing::Return(-1));
     EXPECT_CALL(*g_utilMock, system(_)).Times(testing::AtLeast(1)).WillRepeatedly(testing::Return(0));
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
     EXPECT_EQ(-1, GWP_EthWanLinkUp_callback());
 }
 
@@ -599,7 +598,7 @@ TEST_F(Gw_Prov_EthwanTest, GWPEthWan_EnterBridgeMode) {
         }));
 
     EXPECT_CALL(*g_utilMock, system(_)).Times(testing::AtLeast(1)).WillRepeatedly(testing::Return(0));
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
     GWPEthWan_EnterBridgeMode();
 
     // Test case 2: for syscfg_set_nns_commit failure case
@@ -616,7 +615,7 @@ TEST_F(Gw_Prov_EthwanTest, GWPEthWan_EnterBridgeMode) {
         }));
 
     EXPECT_CALL(*g_utilMock, system(_)).Times(testing::AtLeast(1)).WillRepeatedly(testing::Return(0));
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
     GWPEthWan_EnterBridgeMode();
 }
 
@@ -636,7 +635,7 @@ TEST_F(Gw_Prov_EthwanTest, GWPEthWan_EnterRouterMode) {
         }));
 
     EXPECT_CALL(*g_utilMock, system(_)).Times(testing::AtLeast(1)).WillRepeatedly(testing::Return(0));
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
     GWPEthWan_EnterRouterMode();
 
     // Test case 2: for prev == 0
@@ -653,7 +652,7 @@ TEST_F(Gw_Prov_EthwanTest, GWPEthWan_EnterRouterMode) {
         }));
 
     EXPECT_CALL(*g_utilMock, system(_)).Times(testing::AtLeast(1)).WillRepeatedly(testing::Return(0));
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
     GWPEthWan_EnterRouterMode();
 }
 
@@ -673,7 +672,7 @@ TEST_F(Gw_Prov_EthwanTest, GWPEthWan_ProcessUtopiaRestart) {
             return 0;
         }));
 
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
     GWPEthWan_ProcessUtopiaRestart();
 
     // Test case 2: for active_mode == 0
@@ -689,7 +688,7 @@ TEST_F(Gw_Prov_EthwanTest, GWPEthWan_ProcessUtopiaRestart) {
             return 0;
         }));
 
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
 
     GWPEthWan_ProcessUtopiaRestart();
 }
@@ -750,7 +749,7 @@ TEST_F(Gw_Prov_EthwanTest, GWPEthWan_SysCfgGetInt) {
 
 TEST_F(Gw_Prov_EthwanTest, GWP_ETHWAN_Init) {
 
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
     EXPECT_CALL(*g_syscfgMock, syscfg_set_nns_u_commit(_, _))
         .WillRepeatedly(::testing::Return(0));
     EXPECT_CALL(*g_syscfgMock, syscfg_get(_, _, _, _))
@@ -773,7 +772,7 @@ TEST_F(Gw_Prov_EthwanTest, GWP_ETHWAN_Init) {
 
 TEST_F(Gw_Prov_EthwanTest, LAN_start) {
 
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).Times(testing::AtLeast(1));
     // Test case 1: for bridge_mode == 0
 
     EXPECT_CALL(*g_syseventMock, sysevent_set(_, _, _, _, _))
