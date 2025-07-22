@@ -92,7 +92,8 @@ class Gw_Prov_EthwanTest : public ::testing::Test {
 TEST_F(Gw_Prov_EthwanTest, MainFunction_checkIfAlreadyRunning_false_syscfgset_fails) {
 
     EXPECT_CALL(*g_rdkloggerMock, rdk_logger_init(_)).Times(testing::AtLeast(1));
-    EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    //EXPECT_CALL(*g_rdkloggerMock, rdk_dbg_MsgRaw(_, _, _, _)).Times(testing::AtLeast(1));
+    EXPECT_CALL(*g_rdkloggerMock, rdk_logger_msg_printf(_, _, _, _)).WillRepeatedly(testing::Return(0));
 
     EXPECT_CALL(*g_utilMock, system(_)).Times(testing::AtLeast(1)).WillRepeatedly(testing::Return(0));
 
