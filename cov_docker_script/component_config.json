@@ -87,6 +87,19 @@
         "header_paths": [
           { "source": "include", "destination": "$HOME/usr/include/rdkb" }
         ]
+      },
+      {
+        "name": "hal_ethsw",
+        "repo": "https://github.com/rdkcentral/hardware-abstraction-layer.git",
+        "branch": "develop",
+        "build": {
+          "type": "commands",
+          "commands": [
+            "./autogen.sh",
+            "./configure",
+            "make -C source/ethsw CPPFLAGS=\"-I$HOME/usr/include/rdkb\" LDFLAGS=\"-L$HOME/usr/local/lib\""
+          ]
+        }
       }
     ]
   },
