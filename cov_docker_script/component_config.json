@@ -99,9 +99,10 @@
             "./configure",
             "make -C source/ethsw CPPFLAGS=\"-I$HOME/usr/include/rdkb\" LDFLAGS=\"-L$HOME/usr/local/lib\""
           ]
-        },
-        {
-          "name": "hal_platform",
+        }
+      },
+      {
+        "name": "hal_platform",
           "repo": "https://github.com/rdkcentral/hardware-abstraction-layer.git",
           "branch": "develop",
           "build": {
@@ -112,19 +113,18 @@
               "make -C source/platform CPPFLAGS=\"-I$HOME/usr/include/rdkb\" LDFLAGS=\"-L$HOME/usr/local/lib\""
             ]
           }
-        },
-        {
-          "name": "hal_mso_mgmt",
-          "repo": "https://github.com/rdkcentral/hardware-abstraction-layer.git",
-          "branch": "develop",
-          "build": {
-            "type": "commands",
-            "commands": [
-              "./autogen.sh",
-              "./configure",
-              "make -C source/platform CPPFLAGS=\"-I$HOME/usr/include/rdkb\" LDFLAGS=\"-L$HOME/usr/local/lib\""
-            ]
-          }
+      },
+      {
+        "name": "hal_mso_mgmt",
+        "repo": "https://github.com/rdkcentral/hardware-abstraction-layer.git",
+        "branch": "develop",
+        "build": {
+          "type": "commands",
+          "commands": [
+            "./autogen.sh",
+            "./configure",
+            "make -C source/mso_mgmt CPPFLAGS=\"-I$HOME/usr/include/rdkb\" LDFLAGS=\"-L$HOME/usr/local/lib\""
+          ]
         }
       }
     ]
