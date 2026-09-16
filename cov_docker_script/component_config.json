@@ -126,6 +126,19 @@
             "make -C source/mso_mgmt CPPFLAGS=\"-I$HOME/usr/include/rdkb\" LDFLAGS=\"-L$HOME/usr/local/lib\""
           ]
         }
+      },
+      {
+        "name": "hal_gwprovappabs",
+        "repo": "https://github.com/rdkcentral/hardware-abstraction-layer.git",
+        "branch": "develop",
+        "build": {
+          "type": "commands",
+          "commands": [
+            "./autogen.sh",
+            "./configure",
+            "make -C source/gwprovappabs CPPFLAGS=\"-I$HOME/usr/include/rdkb\" LDFLAGS=\"-L$HOME/usr/local/lib\""
+          ]
+        }
       }
     ]
   },
