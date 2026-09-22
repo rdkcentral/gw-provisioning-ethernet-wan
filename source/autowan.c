@@ -203,6 +203,8 @@ void SetCurrentWanMode(int mode)
     {
     	AUTO_WAN_LOG("syscfg_set failed for curr_wan_mode\n");
     }
+
+    printf("Test Coverity workflow %n");
 }
 
 int GetSelectedWanMode()
