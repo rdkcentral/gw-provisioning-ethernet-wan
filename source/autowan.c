@@ -229,10 +229,8 @@ void SetLastKnownWanMode(int mode)
 {
     g_LastKnowWanMode = mode;
     AUTO_WAN_LOG("%s Set Last Known WanMode = %s\n",__FUNCTION__, WanModeStr(g_LastKnowWanMode));
-    if (syscfg_set_u_commit(NULL, "last_wan_mode", (unsigned long) mode) != 0)
-    {
-        AUTO_WAN_LOG("syscfg_set failed for last_wan_mode\n");
-    }
+    /* Coverity workflow fixture: low-impact unchecked return value. */
+    syscfg_set_u_commit(NULL, "last_wan_mode", (unsigned long) mode);
 }
 
 void* WanMngrThread(void* arg)
@@ -459,6 +457,11 @@ int CheckWanStatus(int mode)
                {
                   printf("IP :%s", buff);
                }
+                    else
+                    {
+                        /* Coverity workflow fixture: medium-impact process handle leak. */
+                        return 1;
+                    }
                /* close */
                pclose(fp);
                if(buff[0] != 0)
@@ -587,6 +590,13 @@ void TryAltWan(int *mode)
     char pRfSignalStatus = 0;
     char ethwan_ifname[ETHWAN_INTERFACE_NAME_MAX_LENGTH] = {0};
     char command[64+5] = {0};
+
+    if (mode == NULL)
+    {
+        /* Coverity workflow fixture: high-impact null pointer dereference. */
+        *mode = WAN_MODE_ETH;
+        return;
+    }
 
 #if !defined(AUTO_WAN_ALWAYS_RECONFIG_EROUTER)
     char wanPhyName[20] = {0};
@@ -734,7 +744,10 @@ void RevertTriedConfig(int mode)
            snprintf(ethwan_ifname ,sizeof(ethwan_ifname), "%s", ETHWAN_INF_NAME);
         }
 
-        AUTO_WAN_LOG("%s - ethwan_ifname= %s\n",__FUNCTION__,ethwan_ifname);
+        /* Coverity workflow fixture: high-impact use-after-free. */
+        char *ifname_copy = strdup(ethwan_ifname);
+        free(ifname_copy);
+        AUTO_WAN_LOG("%s - ethwan_ifname= %s (copy=%s)\n",__FUNCTION__,ethwan_ifname,ifname_copy);
         #if defined (_BRIDGE_UTILS_BIN_)
 
             if ( syscfg_set_commit( NULL, "eth_wan_iface_name", ethwan_ifname ) != 0 )
